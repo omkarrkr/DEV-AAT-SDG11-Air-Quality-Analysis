@@ -1,0 +1,14 @@
+Issue,Count,Action
+Negative PM2.5,0,None
+Negative PM10,0,None
+Negative NO,0,None
+Negative NO2,0,None
+Negative NOx,0,None
+Negative NH3,0,None
+Negative CO,0,None
+Negative SO2,0,None
+Negative O3,0,None
+Negative Benzene,0,None
+Negative Toluene,0,None
+AQI > 500,543,Retained — extreme but real readings
+PM10 < PM2.5,2757,Flagged — may result from imputation

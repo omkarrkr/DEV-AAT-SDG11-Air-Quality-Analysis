@@ -1,0 +1,40 @@
+# ── Python cache ─────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Virtual environments ──────────────────────────────────────
+venv/
+env/
+.env/
+.venv/
+
+# ── Jupyter ───────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── OS / editor noise ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ── Processed / generated files (re-created by src/dfmodif.py) ─
+dataset/processed/city_day_cleaned.csv
+dataset/processed/city_annual_summary.csv
+
+# ── Secrets / credentials — never commit these ───────────────
+*.env
+*.token
+secrets.py
+
+# NOTE: dataset/raw/city_day.csv IS tracked (2.5 MB, under GitHub limit).
+# It is the source dataset needed to reproduce the analysis.
