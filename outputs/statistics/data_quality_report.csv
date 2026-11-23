@@ -1,14 +1,15 @@
 Issue,Count,Action
-Negative PM2.5,0,None
-Negative PM10,0,None
-Negative NO,0,None
-Negative NO2,0,None
-Negative NOx,0,None
-Negative NH3,0,None
-Negative CO,0,None
-Negative SO2,0,None
-Negative O3,0,None
-Negative Benzene,0,None
-Negative Toluene,0,None
-AQI > 500,543,Retained — extreme but real readings
-PM10 < PM2.5,2757,Flagged — may result from imputation
+Negative PM2.5,0,Checked
+Negative PM10,0,Checked
+Negative NO,0,Checked
+Negative NO2,0,Checked
+Negative NOx,0,Checked
+Negative NH3,0,Checked
+Negative CO,0,Checked
+Negative SO2,0,Checked
+Negative O3,0,Checked
+Negative Benzene,0,Checked
+Negative Toluene,0,Checked
+AQI > 500,543,Retained for sensitivity analysis
+PM10 < PM2.5 (measured pairs),229,Checked before imputation on the same AQI-eligible population
+PM10 < PM2.5,2757,Retained; compare against measured pairs

@@ -38,3 +38,6 @@ secrets.py
 
 # NOTE: dataset/raw/city_day.csv IS tracked (2.5 MB, under GitHub limit).
 # It is the source dataset needed to reproduce the analysis.
+
+# Local logs from previous runs
+/archive/run_logs/
