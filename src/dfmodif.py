@@ -10,6 +10,7 @@ PROCESSED_DIR = PROJECT_ROOT / "dataset" / "processed"
 CLEAN_PATH = PROCESSED_DIR / "city_day_cleaned.csv"
 SUMMARY_PATH = PROCESSED_DIR / "city_annual_summary.csv"
 QUALITY_PATH = PROJECT_ROOT / "outputs" / "statistics" / "data_quality_report.csv"
+AQI_CATEGORIES = ["Good", "Satisfactory", "Moderate", "Poor", "Very Poor", "Severe"]
 POLLUTANTS = [
     "PM2.5", "PM10", "NO", "NO2", "NOx", "NH3", "CO", "SO2", "O3",
     "Benzene", "Toluene",
@@ -22,6 +23,11 @@ def prepare_city_days(raw):
         Date=pd.to_datetime(raw["Date"]),
         City=raw["City"].str.strip(),
     ).sort_values(["City", "Date"])
+    if data["City"].fillna("").eq("").any() or data["Date"].isna().any():
+        raise ValueError("Every source row must have a city and date.")
+    unknown_labels = set(data["AQI_Bucket"].dropna()) - set(AQI_CATEGORIES)
+    if unknown_labels:
+        raise ValueError(f"Unexpected reported AQI categories: {sorted(unknown_labels)}")
     data = data.drop_duplicates().drop(columns="Xylene")
     if data.duplicated(["City", "Date"]).any():
         raise ValueError("Conflicting rows share the same City and Date.")

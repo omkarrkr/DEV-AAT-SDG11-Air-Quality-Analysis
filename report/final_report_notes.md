@@ -35,4 +35,11 @@ Xylene was dropped because 18,109 values (61.3%) were missing. Pollutant gaps we
 6. Sensitivity results and limitations
 7. Conclusion and references
 
-Use the notebook's eleven exported charts selectively. Cite the [dataset listing](https://www.kaggle.com/datasets/rohanrao/air-quality-data-in-india) and [UN Goal 11](https://sdgs.un.org/goals/goal11). The official [indicator 11.6.2 methodology](https://unstats.un.org/sdgs/metadata/files/Metadata-11-06-02.pdf) provides the context for discussing population-weighted exposure.
+Use the notebook's twelve exported charts selectively. Cite the [dataset listing](https://www.kaggle.com/datasets/rohanrao/air-quality-data-in-india) and [UN Goal 11](https://sdgs.un.org/goals/goal11). The official [indicator 11.6.2 methodology](https://unstats.un.org/sdgs/metadata/files/Metadata-11-06-02.pdf) provides the context for discussing population-weighted exposure.
+
+## Extended EDA Findings
+
+- Measured PM10 and AQI had Pearson r = 0.803 on 17,764 pairs and Spearman r = 0.871. Filled-data Pearson r was 0.514. The measured and filled comparisons differ in both sample and treatment of gaps. PM2.5 and AQI had measured Pearson r = 0.659 and Spearman r = 0.846. CO and AQI showed the reverse ordering (0.683 and 0.549). [Selected relationships](../outputs/statistics/selected_relationships.csv)
+- NO and NOx were strongly associated on measured pairs (Pearson r = 0.801), as were benzene and toluene (0.764). NH3 and SO2 had a weak near-zero linear relationship (−0.028). These coefficients describe association. [Selected relationships](../outputs/statistics/selected_relationships.csv)
+- In 2019, Ahmedabad had Poor, Very Poor, or Severe AQI on 95.17% of its 352 reported days. Delhi had that result on 53.15% of 365 reported days. The comparison includes cities with at least 300 observations and uses each city's recorded days as its denominator. [City category chart](../outputs/graphs/city_aqi_category_profile_2019.png) · [Category shares](../outputs/tables/city_aqi_category_profile_2019.csv)
+- Cleaned AQI has IQR 127 (81 to 208). Among the two particulate measures, PM10 has the larger mean (121.75 vs 68.88 µg/m³) and the larger absolute IQR (95.65 vs 53.32 µg/m³). PM2.5 has greater relative variation by CV (94.14% vs 74.39%). [Numeric profile](../outputs/statistics/cleaned_numeric_profile.csv)

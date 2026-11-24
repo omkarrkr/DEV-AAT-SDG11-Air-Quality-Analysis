@@ -10,9 +10,10 @@ DEV AAT · B.M.S. College of Engineering
 | 4. AQI distribution | Mean 166.5, median 118. Moderate is the largest category. Poor, Very Poor and Severe account for 26.0% of city-days. | [Distribution](../outputs/graphs/aqi_distribution.png) · [Categories](../outputs/graphs/aqi_category_distribution.png) |
 | 5. City differences | Ahmedabad has the highest mean (452.1), and Aizawl the lowest (34.8). Ahmedabad still ranks first after excluding AQI above 500, with a mean of 291.7. | [Highest city means](../outputs/graphs/top_polluted_cities.png) · [Lowest city means](../outputs/graphs/least_polluted_cities.png) |
 | 6. Changes over time | Pooled coverage rises from 7 to 26 cities. Only Delhi has at least 80% January–June coverage every year. Its comparable-period mean falls from 306.3 to 182.1. November has the highest pooled monthly AQI, and July has the lowest. | [Yearly trends](../outputs/graphs/yearly_aqi_trend.png) · [Monthly trends](../outputs/graphs/monthly_aqi_trend.png) |
-| 7. Pollutant relationships | CO and PM2.5 show the strongest cleaned-data correlations with AQI. The PM2.5–PM10 correlation is 0.853 among measured pairs and 0.594 after imputation. | [Correlation heatmap](../outputs/graphs/pollutant_correlation_heatmap.png) · [PM scatter plot](../outputs/graphs/pm25_pm10_scatter.png) |
-| 8. Interpretation and limits | Findings describe recorded city-days. City coverage, imputation, and extreme values affect interpretation. The official SDG indicator uses population-weighted annual particulate matter concentrations. | |
-| 9. Sources and questions | Credit the dataset, UN framework, and the project workflow built with Python, pandas, Matplotlib, seaborn, and Jupyter. | |
+| 7. Pollutant relationships | CO and PM2.5 show the strongest cleaned-data correlations with AQI. Measured PM10–AQI Pearson r is 0.803 on 17,764 pairs and 0.514 in the filled dataset. Measured and filled samples differ. | [Correlation heatmap](../outputs/graphs/pollutant_correlation_heatmap.png) · [PM scatter plot](../outputs/graphs/pm25_pm10_scatter.png) |
+| 8. City category profiles | In 2019, Poor or worse accounted for 95.17% of Ahmedabad's reported days and 53.15% of Delhi's. Include only cities with at least 300 reported days. | [Category shares](../outputs/graphs/city_aqi_category_profile_2019.png) |
+| 9. Interpretation and limits | Findings describe recorded city-days. City coverage, imputation, and extreme values affect interpretation. The official SDG indicator uses population-weighted annual particulate matter concentrations. | |
+| 10. Sources and questions | Credit the dataset, UN framework, and the project workflow built with Python, pandas, Matplotlib, seaborn, and Jupyter. | |
 
 ## Questions to prepare for
 

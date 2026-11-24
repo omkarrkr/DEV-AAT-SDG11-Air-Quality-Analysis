@@ -20,7 +20,7 @@ The runner executes these stages in order.
 
 1. `src/dfmodif.py` reads the raw CSV, normalizes city and date fields, removes exact duplicates, fills pollutant gaps, and exports the cleaned data, annual city summaries, and the data quality report.
 2. `src/analysis.py` reads the cleaned data, exports the summary tables, and compares the baseline against a matched calendar period, measured PM pairs, and an AQI subset capped at 500 by exclusion.
-3. `notebooks/SDG11_Air_Quality_Analysis.ipynb` executes with the runner's Python interpreter, saves its outputs in the notebook, and regenerates 11 PNG charts.
+3. `notebooks/SDG11_Air_Quality_Analysis.ipynb` executes with the runner's Python interpreter, saves its outputs in the notebook, and regenerates 12 PNG charts.
 
 To work interactively, launch Jupyter from the project directory.
 
@@ -38,10 +38,10 @@ Choose the Python kernel with the project dependencies and run all cells. The no
 | `dataset/processed/` | Generated cleaned dataset and city-by-year summary |
 | `src/` | Preprocessing and statistical analysis |
 | `notebooks/` | Executed exploratory analysis notebook |
-| `outputs/graphs/` | Raw missingness chart and ten exploratory charts |
-| `outputs/tables/` | City, year and month summaries, pollutant averages, PM2.5 bands, comparable-period AQI, and city AQI sensitivity |
-| `outputs/statistics/` | Data quality counts, descriptive statistics, correlation matrix, and PM correlation sensitivity |
-| `report/` and `presentation/` | Report structure and presentation talking points |
+| `outputs/graphs/` | Raw missingness chart and eleven exploratory charts |
+| `outputs/tables/` | City, year and month summaries, pollutant averages, PM2.5 bands, comparable-period AQI, city AQI sensitivity, and 2019 category shares |
+| `outputs/statistics/` | Data quality counts, descriptive statistics, correlation matrix, PM correlation sensitivity, raw and cleaned numeric profiles, and selected measured-pair correlations |
+| `report/` and `presentation/` | Word report, walkthrough, report notes and presentation talking points |
 | `archive/` | Original preprocessing script and local logs from the earlier run |
 
 ## How to read the results
@@ -50,3 +50,14 @@ Choose the Python kernel with the project dependencies and run all cells. The no
 - Reported AQI values above 500 stay in the baseline. `city_aqi_sensitivity.csv` shows how excluding those records changes the city means and sample sizes.
 - Forward fill, backward fill, and a column median fill pollutant gaps. `pm_correlation_sensitivity.csv` compares measured PM2.5–PM10 pairs with the imputed analysis dataset.
 - AQI is an index. Pollutant concentration units differ by field. Station coverage, population exposure, and causes of changes cannot be inferred from this city-day analysis.
+
+## Extended EDA
+
+- The numeric profiles include quartiles, skewness, IQR flags and concentration CV. IQR flags are retained for review.
+- The selected relationships table compares Pearson and Spearman on observed pairs with Pearson on the filled dataset. Pair counts are reported because measurement availability varies by pollutant.
+- The 2019 category chart compares the distribution of reported AQI buckets within cities with at least 300 observed days in that year.
+
+## Read the project
+
+- [Executed EDA notebook](notebooks/SDG11_Air_Quality_Analysis.ipynb) contains the full 14-section analysis.
+- [Word report](report/SDG%2011%20Air%20Quality%20Analysis%20Report.docx) and [project walkthrough](report/How%20We%20Built%20the%20SDG%2011%20Air%20Quality%20Project.docx) summarize the results and explain the workflow.

@@ -3,9 +3,9 @@
 import pandas as pd
 
 if __package__:
-    from .dfmodif import CLEAN_PATH, PROJECT_ROOT, RAW_PATH, prepare_city_days
+    from .dfmodif import AQI_CATEGORIES, CLEAN_PATH, POLLUTANTS, PROJECT_ROOT, RAW_PATH, prepare_city_days
 else:
-    from dfmodif import CLEAN_PATH, PROJECT_ROOT, RAW_PATH, prepare_city_days
+    from dfmodif import AQI_CATEGORIES, CLEAN_PATH, POLLUTANTS, PROJECT_ROOT, RAW_PATH, prepare_city_days
 
 TABLE_DIR = PROJECT_ROOT / "outputs" / "tables"
 STATS_DIR = PROJECT_ROOT / "outputs" / "statistics"
@@ -14,6 +14,62 @@ MONTH_ORDER = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",
 ]
+
+
+RELATIONSHIPS = [
+    ("PM2.5", "PM10"), ("PM10", "AQI"), ("PM2.5", "AQI"),
+    ("CO", "AQI"), ("NO", "NOx"), ("Benzene", "Toluene"), ("NH3", "SO2"),
+]
+
+
+def numeric_profile(data):
+    values = data.select_dtypes(include="number")
+    summary = values.describe().T.rename_axis("Variable")
+    summary["Range"] = summary["max"] - summary["min"]
+    summary["Variance"] = values.var()
+    summary["IQR"] = summary["75%"] - summary["25%"]
+    summary["Skewness"] = values.skew()
+    # CV compares relative spread for positive ratio-scale concentrations.
+    concentrations = values.columns.intersection([*POLLUTANTS, "Xylene"])
+    summary["CV_pct"] = (
+        summary.loc[concentrations, "std"]
+        .div(summary.loc[concentrations, "mean"].where(lambda mean: mean.gt(0)))
+        .mul(100)
+    )
+    lower = summary["25%"] - 1.5 * summary["IQR"]
+    upper = summary["75%"] + 1.5 * summary["IQR"]
+    summary["Outside_IQR_Fences"] = (values.lt(lower) | values.gt(upper)).sum()
+    return summary.round(3)
+
+
+def selected_relationships(prepared, cleaned):
+    measured = prepared.dropna(subset=["AQI", "AQI_Bucket"])
+    records = []
+    for x, y in RELATIONSHIPS:
+        pairs = measured[[x, y]].dropna()
+        ranks = pairs.rank(method="average")
+        records.append({
+            "X": x, "Y": y, "Measured_Pairs": len(pairs),
+            "Measured_Pearson": pairs[x].corr(pairs[y]),
+            "Measured_Spearman": ranks[x].corr(ranks[y]),
+            "Cleaned_Pearson": cleaned[x].corr(cleaned[y]),
+        })
+    return pd.DataFrame(records).round(3)
+
+
+def city_aqi_category_profile(data, year=2019, minimum_days=300):
+    """Compare category shares across cities with substantial same-year coverage."""
+    period = data.loc[data["Year"].eq(year)]
+    counts = pd.crosstab(period["City"], period["AQI_Bucket"])
+    counts = counts.reindex(columns=AQI_CATEGORIES, fill_value=0)
+    days = counts.sum(axis=1)
+    counts = counts.loc[days.ge(minimum_days)]
+    days = days.loc[counts.index]
+    percentages = counts.div(days, axis=0).mul(100)
+    poor_share = percentages[["Poor", "Very Poor", "Severe"]].sum(axis=1)
+    percentages["Poor_or_Worse_pct"] = poor_share
+    percentages["Records"] = days
+    return percentages.sort_values("Poor_or_Worse_pct", ascending=False).round(2)
 
 
 def aqi_summary(data, group):
@@ -67,7 +123,8 @@ def sensitivity_checks(prepared, cleaned):
 
 def main():
     data = pd.read_csv(CLEAN_PATH, parse_dates=["Date"])
-    prepared = prepare_city_days(pd.read_csv(RAW_PATH))
+    raw = pd.read_csv(RAW_PATH)
+    prepared = prepare_city_days(raw)
     TABLE_DIR.mkdir(parents=True, exist_ok=True)
     STATS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -93,6 +150,10 @@ def main():
     data["PM2.5_Severity"].value_counts().to_csv(TABLE_DIR / "pm25_severity_distribution.csv")
     data[KEY_COLUMNS].describe().round(2).to_csv(STATS_DIR / "descriptive_statistics.csv")
     data[KEY_COLUMNS].corr().round(3).to_csv(STATS_DIR / "correlation_matrix.csv")
+    numeric_profile(raw).to_csv(STATS_DIR / "raw_numeric_profile.csv")
+    numeric_profile(data[[*POLLUTANTS, "AQI"]]).to_csv(STATS_DIR / "cleaned_numeric_profile.csv")
+    selected_relationships(prepared, data).to_csv(STATS_DIR / "selected_relationships.csv", index=False)
+    city_aqi_category_profile(data).to_csv(TABLE_DIR / "city_aqi_category_profile_2019.csv")
     print(f"Analysis complete. Comparable-period cities: {', '.join(cities) or 'none'}.")
 
 
