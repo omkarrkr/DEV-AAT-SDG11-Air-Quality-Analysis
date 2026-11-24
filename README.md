@@ -1,6 +1,6 @@
 # SDG 11 — Air Quality in Indian Cities
 
-Data Exploration and Visualization (23CS5PCDEV) · B.M.S. College of Engineering, Bangalore
+Data Exploration and Visualization (23CS5PCDEV) · B.M.S. College of Engineering, Bangalore.
 
 This project explores reported AQI and pollutant concentrations for 26 Indian cities from 1 January 2015 to 1 July 2020. It compares city means, annual and monthly patterns, AQI categories, and pollutant associations. The dataset contains 29,531 raw city-days and 24,850 city-days with reported AQI and category after cleaning. [Dataset source](https://www.kaggle.com/datasets/rohanrao/air-quality-data-in-india)
 
