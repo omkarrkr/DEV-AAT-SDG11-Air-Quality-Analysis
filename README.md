@@ -60,4 +60,4 @@ Choose the Python kernel with the project dependencies and run all cells. The no
 ## Read the project
 
 - [Executed EDA notebook](notebooks/SDG11_Air_Quality_Analysis.ipynb) contains the full 14-section analysis.
-- [Word report](report/SDG%2011%20Air%20Quality%20Analysis%20Report.docx) and [project walkthrough](report/How%20We%20Built%20the%20SDG%2011%20Air%20Quality%20Project.docx) summarize the results and explain the workflow.
+- [Final Word report](report/SDG%2011%20Air%20Quality%20Analysis%20Final%20Report.docx) and [project walkthrough](report/How%20We%20Built%20the%20SDG%2011%20Air%20Quality%20Project.docx) summarize the results and explain the workflow.
